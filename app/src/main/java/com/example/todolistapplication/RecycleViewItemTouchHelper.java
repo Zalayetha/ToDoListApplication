@@ -56,12 +56,8 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             AlertDialog dialog = builder.create();
             dialog.show();
         }else{
-            //TODO
             adapter.editItem(position);
             adapter.notifyDataSetChanged();
-//            context = viewHolder.itemView.getContext();
-//            Intent intent = new Intent(context,UpdateTask.class);
-//            context.startActivity(intent);
         }
     }
 
@@ -77,10 +73,10 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
         if(dX>0){
             icon = ContextCompat.getDrawable(adapter.getContext(),R.drawable.edit_pen);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.darkPurple));
+            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.editGreen));
         }else{
             icon = ContextCompat.getDrawable(adapter.getContext(),R.drawable.bin);
-            background = new ColorDrawable(Color.RED);
+            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.deleteRed));
         }
         assert icon != null;
         int iconMargin = (itemView.getHeight()-icon.getIntrinsicHeight())/2;

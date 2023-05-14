@@ -39,11 +39,14 @@ public class UpdateTask extends AppCompatActivity {
 
         String[] dueDateTime_split = extras.getString("due_date").split(" ");
 
-
         taskText.setText(extras.getString("task"));
         noteText.setText(extras.getString("note"));
-        dueDate.setText(dueDateTime_split[0]);
-        dueTime.setText(dueDateTime_split[1]);
+        if(dueDateTime_split.length == 2){
+            dueDate.setText(dueDateTime_split[0]);
+            dueTime.setText(dueDateTime_split[1]);
+        }else if(dueDateTime_split.length == 1){
+            dueDate.setText(dueDateTime_split[0]);
+        }
         backButton = (AppCompatButton) findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {

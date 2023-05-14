@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darkPurple">#212A3E</color>
     <color name="whitePurple">#3C486B</color>
+    <color name="deleteRed">#EA5455</color>
+    <color name="editGreen">#A4D0A4</color>
 </resources>
