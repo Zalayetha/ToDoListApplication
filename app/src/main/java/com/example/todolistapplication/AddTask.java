@@ -87,6 +87,7 @@ public class AddTask extends AppCompatActivity {
                 db = new DBConfig(AddTask.this);
                 task = taskText.getText().toString();
                 note = noteText.getText().toString();
+
                 dueDateTime = dueDate.getText().toString()+" "+dueTime.getText().toString();
                 if(task.isEmpty()){
                     Toast.makeText(AddTask.this, "Fill Empty Field", Toast.LENGTH_SHORT).show();
@@ -97,7 +98,6 @@ public class AddTask extends AppCompatActivity {
                         tasks.setNote(note);
                         tasks.setStatus(0);
                         tasks.setDue_date(dueDateTime);
-                        Log.d("due_date",tasks.getDue_date());
                         db.addTask(tasks);
                         Toast.makeText(AddTask.this, "Successfully Add Task", Toast.LENGTH_SHORT).show();
                         MainActivity.main.refreshTodos();

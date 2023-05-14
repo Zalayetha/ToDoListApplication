@@ -57,10 +57,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked){
-                    Log.d("True", String.valueOf(1));
                     db.updateStatus(itemList.getId(),1);
                 }else{
-                    Log.d("False", String.valueOf(2));
                     db.updateStatus(itemList.getId(),2);
                 }
             }
@@ -74,9 +72,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
             toDOList.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position,getItemCount());
-            Log.d("size after", String.valueOf(getItemCount()));
         }else{
-            Log.d("gagal","delete");
         }
 
     }
@@ -85,7 +81,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     }
     @Override
     public int getItemCount() {
-//        Log.d("Size ToDoList", String.valueOf(toDOList.size()));
         return toDOList.size();
     }
 
@@ -95,8 +90,17 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     }
     public void editItem(int position){
         ToDoModels item = toDOList.get(position);
-        UpdateTask update = new UpdateTask();
-
+        Context context = getContext();
+        Intent i = new Intent(context,UpdateTask.class);
+        i.putExtra("id",item.getId());
+        i.putExtra("task",String.valueOf(item.getTask()));
+        i.putExtra("note",String.valueOf(item.getNote()));
+        i.putExtra("due_date",String.valueOf(item.getDue_date()));
+        context.startActivity(i);
+    }
+    public void setFilteredList(List<ToDoModels> filteredList){
+        this.toDOList = filteredList;
+        notifyDataSetChanged();
     }
     public Context getContext(){
         return main;

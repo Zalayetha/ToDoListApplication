@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.todolistapplication.Adapaters.ToDoAdapter;
 import com.example.todolistapplication.models.ToDoModels;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class DBConfig extends SQLiteOpenHelper {
                 ToDoModels task = new ToDoModels();
                 task.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 task.setTask(cursor.getString(cursor.getColumnIndex("task")));
+                task.setNote(cursor.getString(cursor.getColumnIndex("note")));
+                task.setDue_date(cursor.getString(cursor.getColumnIndex("due_date")));
                 tasks.add(task);
             }
         }catch (Exception e){
@@ -54,37 +57,35 @@ public class DBConfig extends SQLiteOpenHelper {
         data.put("note",todo.getNote());
         data.put("status",0);
         data.put("due_date",todo.getDue_date());
+        String note = String.valueOf(data.get("note"));
         db.insert(TABLE_NAME,null,data);
-        db.close();
-
     }
     public int deleteTask(int id){
         db = getWritableDatabase();
-        Log.d("id", String.valueOf(id));
         return db.delete(TABLE_NAME,"id= ?",new String[] {String.valueOf(id)});
-//        db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE id='"+id+"'");
     }
     public void updateStatus(int id,int status){
+        db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("status",status);
         db.update(TABLE_NAME,cv,"id= ?",new String[]{String.valueOf(id)});
     }
-    public void updateTask(int id,String task){
+    public void updateTask(int id, ToDoModels task){
+        db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("task",task);
+        cv.put("task",task.getTask());
+        cv.put("note",task.getNote());
+        cv.put("due_date",task.getDue_date());
         db.update(TABLE_NAME,cv,"id= ?",new String[]{String.valueOf(id)});
     }
     public int getCountTable(){
-        db = this.getReadableDatabase();
+        db = getReadableDatabase();
         Cursor cursorCount = db.rawQuery("SELECT * FROM "+TABLE_NAME,null);
         return cursorCount.getCount();
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"(id integer primary key autoincrement NOT NULL, task text, note text, status integer, due_date text)";
-        Log.d("Sql string", sql);
-        sqLiteDatabase.execSQL(sql);
-        sql = "INSERT INTO "+TABLE_NAME +"(id,task,note,status,due_date) values ('1','Main','test',0,'2009')";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"(id integer primary key autoincrement NOT NULL, task text NOT NULL, note text, status integer, due_date text)";
         sqLiteDatabase.execSQL(sql);
     }
     @Override

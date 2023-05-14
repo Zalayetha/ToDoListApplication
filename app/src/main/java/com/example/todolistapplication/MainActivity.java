@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolistapplication.Adapaters.ToDoAdapter;
 import com.example.todolistapplication.models.ToDoModels;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView taskRecycleView;
     ToDoAdapter taskAdapter;
     public static MainActivity main;
+    List<ToDoModels> tasks;
 
 
     @Override
@@ -59,10 +63,37 @@ public class MainActivity extends AppCompatActivity {
         refreshTodos();
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecycleViewItemTouchHelper(taskAdapter));
         itemTouchHelper.attachToRecyclerView(taskRecycleView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
     }
+
+    private void filterList(String newText) {
+        List<ToDoModels> filteredList = new ArrayList<>();
+        for(ToDoModels item:tasks){
+            if(item.getTask().toLowerCase().contains(newText.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+        if(filteredList.isEmpty()){
+            Toast.makeText(main, "No Data Found", Toast.LENGTH_SHORT).show();
+        }else{
+            taskAdapter.setFilteredList(filteredList);
+        }
+    }
+
     public void refreshTodos(){
-        List<ToDoModels> tasks =  dbCenter.getAllTasks();
-        Log.d("size tasks", String.valueOf(tasks.size()));
+        tasks =  dbCenter.getAllTasks();
         Collections.reverse(tasks);
         taskAdapter.setTask(tasks);
 

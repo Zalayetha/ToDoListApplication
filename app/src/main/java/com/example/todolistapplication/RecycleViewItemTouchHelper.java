@@ -43,8 +43,6 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
-                            Log.d("position", String.valueOf(position));
                             adapter.deleteItem(position);
                             adapter.notifyDataSetChanged();
                         }
@@ -59,10 +57,11 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             dialog.show();
         }else{
             //TODO
-//            adapter.editItem(position);
-            context = viewHolder.itemView.getContext();
-            Intent intent = new Intent(context,UpdateTask.class);
-            context.startActivity(intent);
+            adapter.editItem(position);
+            adapter.notifyDataSetChanged();
+//            context = viewHolder.itemView.getContext();
+//            Intent intent = new Intent(context,UpdateTask.class);
+//            context.startActivity(intent);
         }
     }
 

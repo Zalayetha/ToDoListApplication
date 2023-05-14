@@ -25,13 +25,25 @@ public class UpdateTask extends AppCompatActivity {
     private int mYear,mMonth,mDay,mHour,mMinute;
     String task,note,dueDateTime;
     DBConfig db;
+    Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_task);
         Objects.requireNonNull(getSupportActionBar()).hide();
+        extras = getIntent().getExtras();
         taskText = (EditText)findViewById(R.id.taskEditText);
         noteText = (EditText)findViewById(R.id.noteEditText);
+        dueDate = (EditText)findViewById(R.id.dueDate);
+        dueTime = (EditText) findViewById(R.id.dueTimeText);
+
+        String[] dueDateTime_split = extras.getString("due_date").split(" ");
+
+
+        taskText.setText(extras.getString("task"));
+        noteText.setText(extras.getString("note"));
+        dueDate.setText(dueDateTime_split[0]);
+        dueTime.setText(dueDateTime_split[1]);
         backButton = (AppCompatButton) findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +103,12 @@ public class UpdateTask extends AppCompatActivity {
                 }else{
                     try{
                         ToDoModels tasks = new ToDoModels();
-//                        tasks.setId();
                         tasks.setTask(task);
                         tasks.setNote(note);
                         tasks.setStatus(0);
                         tasks.setDue_date(dueDateTime);
-                        Log.d("due_date",tasks.getDue_date());
-                        db.addTask(tasks);
+                        int id = extras.getInt("id");
+                        db.updateTask(id,tasks);
                         Toast.makeText(UpdateTask.this, "Successfully Update Task", Toast.LENGTH_SHORT).show();
                         MainActivity.main.refreshTodos();
 //                        Intent i = new Intent(UpdateTask.this,MainActivity.class);
