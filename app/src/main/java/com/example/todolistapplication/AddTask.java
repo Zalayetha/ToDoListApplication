@@ -167,8 +167,6 @@ public class AddTask extends AppCompatActivity {
                                 PendingIntent pendingIntent = PendingIntent.getBroadcast(AddTask.this,0,i,PendingIntent.FLAG_ONE_SHOT);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),pendingIntent);
                             }
-
-
                         }catch (Exception e){
                             Log.d("error", String.valueOf(e));
                         }
