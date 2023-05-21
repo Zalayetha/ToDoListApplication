@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolistapplication.DBConfig;
@@ -26,6 +28,7 @@ import com.example.todolistapplication.R;
 import com.example.todolistapplication.UpdateTask;
 import com.example.todolistapplication.models.ToDoModels;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
@@ -34,12 +37,14 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     SQLiteDatabase sqLiteDatabase;
     private List<ToDoModels> toDOList;
     private MainActivity main;
+    private HashMap<Integer,Boolean> checkedStates;
     public ToDoAdapter(){
 
     }
     public ToDoAdapter(MainActivity main,DBConfig db){
         this.main = main;
         this.db = db;
+        checkedStates = new HashMap<>();
     }
     @NonNull
     @Override
@@ -48,21 +53,29 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         return new ViewHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder,  int position) {
         final ToDoModels itemList = toDOList.get(position);
         holder.task.setText(itemList.getTask());
-        holder.task.setChecked(convertToBoolean(itemList.getStatus()));
+        // TODO masih buggy
+        boolean isChecked = checkedStates.getOrDefault(itemList.getId(),false);
+        holder.task.setChecked(isChecked);
+        Log.d("status"+itemList.getTask(), String.valueOf(itemList.getStatus()));
         holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked){
                     db.updateStatus(itemList.getId(),1);
                 }else{
-                    db.updateStatus(itemList.getId(),2);
+                    db.updateStatus(itemList.getId(),0);
                 }
             }
         });
+    }
+    public void setTaskChecked(int taskId,int isChecked){
+        Log.d("boolean", String.valueOf(convertToBoolean(isChecked)));
+        checkedStates.put(taskId,convertToBoolean(isChecked));
 
     }
     public void deleteItem(int position){

@@ -124,30 +124,33 @@ public class UpdateTask extends AppCompatActivity {
                         tasks.setDue_date(dueDateTime);
                         tasks.setCategory(category);
                         check_task = db.getAllTasks();
-                        // TODO DIALOG MUNCUL SENDIRI KARENA ALGO NYA SALAH
                         for(ToDoModels item:check_task){
-                            if(item.getDue_date().toLowerCase().contains(dueDateTime)){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateTask.this).
-                                        setTitle("Conflicting Schedule").
-                                        setMessage("Are you sure you want to set this schedule? ").
-                                        setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
+                            if(!item.getDue_date().toLowerCase().contains(extras.getString("due_date"))){
+                                if(item.getDue_date().toLowerCase().contains(dueDateTime)){
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(UpdateTask.this).
+                                            setTitle("Conflicting Schedule").
+                                            setMessage("Are you sure you want to set this schedule? ").
+                                            setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                                                db.updateTask(id,tasks);
-                                                Toast.makeText(UpdateTask.this, "Successfully Update Task", Toast.LENGTH_SHORT).show();
-                                                MainActivity.main.refreshTodos();
-                                                finish();
-                                            }
-                                        }).
-                                        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                return;
-                                            }
-                                        });
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
+                                                    db.updateTask(id,tasks);
+                                                    Toast.makeText(UpdateTask.this, "Successfully Update Task", Toast.LENGTH_SHORT).show();
+                                                    MainActivity.main.refreshTodos();
+                                                    MainActivity.main.loadSpinnerCategory();
+                                                    finish();
+
+                                                }
+                                            }).
+                                            setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    return;
+                                                }
+                                            });
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
                             }
                         }
                         try{
@@ -189,6 +192,7 @@ public class UpdateTask extends AppCompatActivity {
                         db.updateTask(id,tasks);
                         Toast.makeText(UpdateTask.this, "Successfully Update Task", Toast.LENGTH_SHORT).show();
                         MainActivity.main.refreshTodos();
+                        MainActivity.main.loadSpinnerCategory();
                         finish();
                     }catch (Exception e){
                         Toast.makeText(UpdateTask.this, "Error Connection", Toast.LENGTH_SHORT).show();

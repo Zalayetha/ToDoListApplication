@@ -45,6 +45,7 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             adapter.deleteItem(position);
+                            MainActivity.main.loadSpinnerCategory();
                             adapter.notifyDataSetChanged();
                         }
                     });

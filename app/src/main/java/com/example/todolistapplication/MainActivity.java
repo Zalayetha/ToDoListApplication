@@ -66,8 +66,10 @@ public class MainActivity extends AppCompatActivity {
         taskRecycleView.setLayoutManager(new LinearLayoutManager(this));
         taskAdapter = new ToDoAdapter(MainActivity.this,dbCenter);
         taskRecycleView.setAdapter(taskAdapter);
-        refreshTodos();
         itemTouchHelper = new ItemTouchHelper(new RecycleViewItemTouchHelper(taskAdapter,MainActivity.this));
+        categoryTaskSpinner = (Spinner) findViewById(R.id.categoryspinner);
+        loadSpinnerCategory();
+        refreshTodos();
         itemTouchHelper.attachToRecyclerView(taskRecycleView);
         searchView.clearFocus();;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -82,21 +84,22 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        loadSpinnerCategory();
         categoryTaskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedCategory = categoryList.get(i);
                 if(selectedCategory.equalsIgnoreCase("All")){
                     refreshTodos();
-                }else{
+                }else if(selectedCategory.equalsIgnoreCase("Completed")){
+                  //display tasks for the selected category
+                } else{
                     // display tasks for the selected category
                     List<ToDoModels> filteredList = new ArrayList<>();
                     for(ToDoModels item:tasks){
                         if(item.getCategory().equalsIgnoreCase(selectedCategory)){
                             filteredList.add(item);
-
                         }
+                        Log.d("status now "+item.getTask(), String.valueOf(item.getStatus()));
                     }
                     taskAdapter.setTask(filteredList);
                 }
@@ -123,14 +126,17 @@ public class MainActivity extends AppCompatActivity {
             taskAdapter.setFilteredList(filteredList);
         }
     }
-    private void loadSpinnerCategory(){
+    public void loadSpinnerCategory(){
         List<ToDoModels> getCategory = dbCenter.getAllTasks();
         categoryList = new ArrayList<>();
         categoryList.add("All");
+        categoryList.add("Completed");
         for(ToDoModels item:getCategory){
-            categoryList.add(item.getCategory().toLowerCase());
+            if(!getCategory.contains(item.getCategory())){
+                categoryList.add(item.getCategory().toLowerCase());
+            }
         }
-        categoryTaskSpinner = (Spinner) findViewById(R.id.categoryspinner);
+
         ArrayAdapter adapterCategory = new ArrayAdapter(this, R.layout.spinner_list,categoryList);
         categoryTaskSpinner.setAdapter(adapterCategory);
     }
@@ -139,7 +145,10 @@ public class MainActivity extends AppCompatActivity {
         tasks =  dbCenter.getAllTasks();
         Collections.reverse(tasks);
         taskAdapter.setTask(tasks);
-
-}
+//        Update the checked states of the tasks
+        for(ToDoModels task:tasks){
+            taskAdapter.setTaskChecked(task.getId(),task.getStatus());
+        }
+    }
 
 }

@@ -121,10 +121,10 @@ public class AddTask extends AppCompatActivity {
                                         setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-
                                                 db.addTask(tasks);
                                                 Toast.makeText(AddTask.this, "Successfully Add Task", Toast.LENGTH_SHORT).show();
                                                 MainActivity.main.refreshTodos();
+                                                MainActivity.main.loadSpinnerCategory();
                                                 finish();
                                             }
                                         }).
@@ -178,6 +178,7 @@ public class AddTask extends AppCompatActivity {
                         db.addTask(tasks);
                         Toast.makeText(AddTask.this, "Successfully Add Task", Toast.LENGTH_SHORT).show();
                         MainActivity.main.refreshTodos();
+                        MainActivity.main.loadSpinnerCategory();
                         finish();
 
                     }catch (Exception e){

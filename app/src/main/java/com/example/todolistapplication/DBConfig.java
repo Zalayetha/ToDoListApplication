@@ -69,6 +69,7 @@ public class DBConfig extends SQLiteOpenHelper {
     public void updateStatus(int id,int status){
         db = getWritableDatabase();
         ContentValues cv = new ContentValues();
+        Log.d("status di db COnfig", String.valueOf(status));
         cv.put("status",status);
         db.update(TABLE_NAME,cv,"id= ?",new String[]{String.valueOf(id)});
     }
