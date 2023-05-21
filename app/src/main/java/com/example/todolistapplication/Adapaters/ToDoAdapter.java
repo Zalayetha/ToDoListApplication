@@ -96,6 +96,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         i.putExtra("task",String.valueOf(item.getTask()));
         i.putExtra("note",String.valueOf(item.getNote()));
         i.putExtra("due_date",String.valueOf(item.getDue_date()));
+        i.putExtra("category",String.valueOf(item.getCategory()));
         context.startActivity(i);
     }
     public void setFilteredList(List<ToDoModels> filteredList){

@@ -29,9 +29,9 @@ import java.util.Objects;
 
 public class AddTask extends AppCompatActivity {
     AppCompatButton backButton,submitButton;
-    EditText dueDate,dueTime,taskText,noteText;
+    EditText dueDate,dueTime,taskText,noteText,categoryText;
     private int mYear,mMonth,mDay,mHour,mMinute;
-    String task,note,dueDateTime;
+    String task,note,dueDateTime,category;
     DBConfig db;
     List<ToDoModels> check_tasks;
     MainActivity main;
@@ -44,6 +44,7 @@ public class AddTask extends AppCompatActivity {
         taskText = (EditText)findViewById(R.id.taskEditText);
         noteText = (EditText)findViewById(R.id.noteEditText);
         backButton = (AppCompatButton) findViewById(R.id.backButton);
+        categoryText = (EditText) findViewById(R.id.categoryText);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,7 @@ public class AddTask extends AppCompatActivity {
                 db = new DBConfig(AddTask.this);
                 task = taskText.getText().toString();
                 note = noteText.getText().toString();
+                category = categoryText.getText().toString();
 
                 dueDateTime = dueDate.getText().toString()+" "+dueTime.getText().toString();
                 if(task.isEmpty()){
@@ -109,6 +111,7 @@ public class AddTask extends AppCompatActivity {
                         tasks.setNote(note);
                         tasks.setStatus(0);
                         tasks.setDue_date(dueDateTime);
+                        tasks.setCategory(category);
                         check_tasks = db.getAllTasks();
                         for(ToDoModels item:check_tasks){
                             if(item.getDue_date().toLowerCase().contains(dueDateTime)){

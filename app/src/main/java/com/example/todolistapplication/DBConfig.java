@@ -41,6 +41,7 @@ public class DBConfig extends SQLiteOpenHelper {
                 task.setTask(cursor.getString(cursor.getColumnIndex("task")));
                 task.setNote(cursor.getString(cursor.getColumnIndex("note")));
                 task.setDue_date(cursor.getString(cursor.getColumnIndex("due_date")));
+                task.setCategory(cursor.getString(cursor.getColumnIndex("category")));
                 tasks.add(task);
             }
         }catch (Exception e){
@@ -57,6 +58,7 @@ public class DBConfig extends SQLiteOpenHelper {
         data.put("note",todo.getNote());
         data.put("status",0);
         data.put("due_date",todo.getDue_date());
+        data.put("category",todo.getCategory());
         String note = String.valueOf(data.get("note"));
         db.insert(TABLE_NAME,null,data);
     }
@@ -76,6 +78,7 @@ public class DBConfig extends SQLiteOpenHelper {
         cv.put("task",task.getTask());
         cv.put("note",task.getNote());
         cv.put("due_date",task.getDue_date());
+        cv.put("category",task.getCategory());
         db.update(TABLE_NAME,cv,"id= ?",new String[]{String.valueOf(id)});
     }
     public int getCountTable(){
@@ -85,7 +88,7 @@ public class DBConfig extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"(id integer primary key autoincrement NOT NULL, task text NOT NULL, note text, status integer, due_date text)";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"(id integer primary key autoincrement NOT NULL, task text NOT NULL, note text, status integer, due_date text,category text)";
         sqLiteDatabase.execSQL(sql);
     }
     @Override

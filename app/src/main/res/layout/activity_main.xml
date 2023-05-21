@@ -71,22 +71,29 @@
             android:textSize="20dp"
             android:layout_marginStart="10dp">
         </TextView>
-        <ImageButton
-            android:id="@+id/addButton"
+
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/addround"
-            android:src="@drawable/minus_xl"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:padding="5dp">
-        </ImageButton>
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/custom_spn_background">
+
+            <Spinner
+                android:id="@+id/categoryspinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:dropDownSelector="@color/white"
+                android:dropDownWidth="70dp"
+                android:spinnerMode="dropdown"
+                android:tooltipText="Select Category"
+                />
+        </FrameLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_weight="4"
         android:layout_marginTop="25dp">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/taskRecycleViewer"
@@ -95,11 +102,17 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:orientation="vertical">
 
-    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/whitePurple"
+        android:src="@drawable/minus_xl"
+        app:tint="@color/white"
+        >
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
 </LinearLayout>

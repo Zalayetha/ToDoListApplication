@@ -21,10 +21,11 @@ import com.example.todolistapplication.Adapaters.ToDoAdapter;
 public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     private ToDoAdapter adapter;
 
-    Context context;
-    public RecycleViewItemTouchHelper(ToDoAdapter adapter) {
+    private Context context;
+    public RecycleViewItemTouchHelper(ToDoAdapter adapter,Context context) {
         super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
         this.adapter = adapter;
+        this.context = context;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getAdapterPosition();
         if(direction == ItemTouchHelper.LEFT){
-            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Delete Task");
             builder.setMessage("Are you sure you want to delete this Task?");
             builder.setPositiveButton("Confirm",
@@ -72,11 +73,11 @@ public class RecycleViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         int backgroundCornerOffset = 20;
 
         if(dX>0){
-            icon = ContextCompat.getDrawable(adapter.getContext(),R.drawable.edit_pen);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.editGreen));
+            icon = ContextCompat.getDrawable(context,R.drawable.edit_pen);
+            background = new ColorDrawable(ContextCompat.getColor(context,R.color.editGreen));
         }else{
-            icon = ContextCompat.getDrawable(adapter.getContext(),R.drawable.bin);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.deleteRed));
+            icon = ContextCompat.getDrawable(context,R.drawable.bin);
+            background = new ColorDrawable(ContextCompat.getColor(context,R.color.deleteRed));
         }
         assert icon != null;
         int iconMargin = (itemView.getHeight()-icon.getIntrinsicHeight())/2;

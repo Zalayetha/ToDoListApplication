@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolistapplication.Adapaters.ToDoAdapter;
 import com.example.todolistapplication.models.ToDoModels;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,13 +31,15 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     DBConfig dbCenter;
-    ImageButton addButton;
+//    ImageButton addButton;
+    FloatingActionButton addButton;
     RecyclerView taskRecycleView;
     ToDoAdapter taskAdapter;
     public static MainActivity main;
     List<ToDoModels> tasks;
-
-
+    Spinner categoryTaskSpinner;
+    List<String> categoryList;
+    ItemTouchHelper itemTouchHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         // database
         dbCenter = new DBConfig(this);
-        addButton = (ImageButton) findViewById(R.id.addButton);
+        addButton = (FloatingActionButton) findViewById(R.id.fab);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
         taskAdapter = new ToDoAdapter(MainActivity.this,dbCenter);
         taskRecycleView.setAdapter(taskAdapter);
         refreshTodos();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecycleViewItemTouchHelper(taskAdapter));
+        itemTouchHelper = new ItemTouchHelper(new RecycleViewItemTouchHelper(taskAdapter,MainActivity.this));
         itemTouchHelper.attachToRecyclerView(taskRecycleView);
-        searchView.clearFocus();
+        searchView.clearFocus();;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -76,6 +82,32 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        loadSpinnerCategory();
+        categoryTaskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedCategory = categoryList.get(i);
+                if(selectedCategory.equalsIgnoreCase("All")){
+                    refreshTodos();
+                }else{
+                    // display tasks for the selected category
+                    List<ToDoModels> filteredList = new ArrayList<>();
+                    for(ToDoModels item:tasks){
+                        if(item.getCategory().equalsIgnoreCase(selectedCategory)){
+                            filteredList.add(item);
+
+                        }
+                    }
+                    taskAdapter.setTask(filteredList);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void filterList(String newText) {
@@ -90,6 +122,17 @@ public class MainActivity extends AppCompatActivity {
         }else{
             taskAdapter.setFilteredList(filteredList);
         }
+    }
+    private void loadSpinnerCategory(){
+        List<ToDoModels> getCategory = dbCenter.getAllTasks();
+        categoryList = new ArrayList<>();
+        categoryList.add("All");
+        for(ToDoModels item:getCategory){
+            categoryList.add(item.getCategory().toLowerCase());
+        }
+        categoryTaskSpinner = (Spinner) findViewById(R.id.categoryspinner);
+        ArrayAdapter adapterCategory = new ArrayAdapter(this, R.layout.spinner_list,categoryList);
+        categoryTaskSpinner.setAdapter(adapterCategory);
     }
 
     public void refreshTodos(){

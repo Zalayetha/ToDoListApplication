@@ -99,6 +99,16 @@
             android:focusable="false"
             >
         </EditText>
+        <EditText
+            android:id="@+id/categoryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Category"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            >
+        </EditText>
     </LinearLayout>
 
     <LinearLayout
