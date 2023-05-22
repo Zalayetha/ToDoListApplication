@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:dropDownSelector="@color/white"
-                android:dropDownWidth="70dp"
+                android:dropDownWidth="150dp"
                 android:spinnerMode="dropdown"
                 android:tooltipText="Select Category"
                 />

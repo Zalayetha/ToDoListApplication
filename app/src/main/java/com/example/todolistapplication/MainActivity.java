@@ -2,15 +2,12 @@ package com.example.todolistapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,14 +21,12 @@ import com.example.todolistapplication.models.ToDoModels;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     DBConfig dbCenter;
-//    ImageButton addButton;
     FloatingActionButton addButton;
     RecyclerView taskRecycleView;
     ToDoAdapter taskAdapter;
@@ -40,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner categoryTaskSpinner;
     List<String> categoryList;
     ItemTouchHelper itemTouchHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent addTaskAct = new Intent(MainActivity.this, AddTask.class);
                 startActivity(addTaskAct);
-
             }
         });
+
         main= this;
         taskRecycleView = (RecyclerView) findViewById(R.id.taskRecycleViewer);
         taskRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -92,15 +88,30 @@ public class MainActivity extends AppCompatActivity {
                     refreshTodos();
                 }else if(selectedCategory.equalsIgnoreCase("Completed")){
                   //display tasks for the selected category
+                    tasks =  dbCenter.getAllTasks();
+                    Collections.reverse(tasks);
+                    List<ToDoModels> filteredList = new ArrayList<>();
+                    for(ToDoModels item:tasks){
+                        if(item.getStatus() == 1){
+                            filteredList.add(item);
+                            taskAdapter.setTaskChecked(item.getId(),item.getStatus());
+                        }
+                    }
+
+                    taskAdapter.setTask(filteredList);
                 } else{
                     // display tasks for the selected category
+                    tasks =  dbCenter.getAllTasks();
+                    Collections.reverse(tasks);
                     List<ToDoModels> filteredList = new ArrayList<>();
                     for(ToDoModels item:tasks){
                         if(item.getCategory().equalsIgnoreCase(selectedCategory)){
                             filteredList.add(item);
+                            taskAdapter.setTaskChecked(item.getId(),item.getStatus());
                         }
-                        Log.d("status now "+item.getTask(), String.valueOf(item.getStatus()));
+
                     }
+
                     taskAdapter.setTask(filteredList);
                 }
             }
@@ -110,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void filterList(String newText) {
@@ -132,23 +142,24 @@ public class MainActivity extends AppCompatActivity {
         categoryList.add("All");
         categoryList.add("Completed");
         for(ToDoModels item:getCategory){
-            if(!getCategory.contains(item.getCategory())){
+            if(!categoryList.contains(item.getCategory().toLowerCase())){
                 categoryList.add(item.getCategory().toLowerCase());
             }
         }
 
         ArrayAdapter adapterCategory = new ArrayAdapter(this, R.layout.spinner_list,categoryList);
+        adapterCategory.setDropDownViewResource(R.layout.spinner_list);
         categoryTaskSpinner.setAdapter(adapterCategory);
     }
 
     public void refreshTodos(){
         tasks =  dbCenter.getAllTasks();
         Collections.reverse(tasks);
-        taskAdapter.setTask(tasks);
-//        Update the checked states of the tasks
+        //        Update the checked states of the tasks
         for(ToDoModels task:tasks){
             taskAdapter.setTaskChecked(task.getId(),task.getStatus());
         }
+        taskAdapter.setTask(tasks);
     }
 
 }

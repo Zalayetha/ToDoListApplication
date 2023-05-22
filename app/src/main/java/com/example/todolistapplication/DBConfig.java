@@ -41,6 +41,7 @@ public class DBConfig extends SQLiteOpenHelper {
                 task.setTask(cursor.getString(cursor.getColumnIndex("task")));
                 task.setNote(cursor.getString(cursor.getColumnIndex("note")));
                 task.setDue_date(cursor.getString(cursor.getColumnIndex("due_date")));
+                task.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
                 task.setCategory(cursor.getString(cursor.getColumnIndex("category")));
                 tasks.add(task);
             }
@@ -58,7 +59,7 @@ public class DBConfig extends SQLiteOpenHelper {
         data.put("note",todo.getNote());
         data.put("status",0);
         data.put("due_date",todo.getDue_date());
-        data.put("category",todo.getCategory());
+        data.put("category",todo.getCategory().toLowerCase());
         String note = String.valueOf(data.get("note"));
         db.insert(TABLE_NAME,null,data);
     }
@@ -69,9 +70,9 @@ public class DBConfig extends SQLiteOpenHelper {
     public void updateStatus(int id,int status){
         db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        Log.d("status di db COnfig", String.valueOf(status));
         cv.put("status",status);
         db.update(TABLE_NAME,cv,"id= ?",new String[]{String.valueOf(id)});
+
     }
     public void updateTask(int id, ToDoModels task){
         db = getWritableDatabase();

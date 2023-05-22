@@ -4,6 +4,7 @@ package com.example.todolistapplication.Adapaters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.os.Build;
@@ -45,6 +46,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         this.main = main;
         this.db = db;
         checkedStates = new HashMap<>();
+
     }
     @NonNull
     @Override
@@ -61,7 +63,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         // TODO masih buggy
         boolean isChecked = checkedStates.getOrDefault(itemList.getId(),false);
         holder.task.setChecked(isChecked);
-        Log.d("status"+itemList.getTask(), String.valueOf(itemList.getStatus()));
         holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -74,10 +75,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         });
     }
     public void setTaskChecked(int taskId,int isChecked){
-        Log.d("boolean", String.valueOf(convertToBoolean(isChecked)));
         checkedStates.put(taskId,convertToBoolean(isChecked));
 
     }
+
     public void deleteItem(int position){
         ToDoModels item =toDOList.get(position);
         int del = db.deleteTask(item.getId());

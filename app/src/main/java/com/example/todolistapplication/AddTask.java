@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.todolistapplication.Adapaters.ToDoAdapter;
 import com.example.todolistapplication.models.ToDoModels;
 
 import java.util.Calendar;
@@ -34,8 +35,22 @@ public class AddTask extends AppCompatActivity {
     String task,note,dueDateTime,category;
     DBConfig db;
     List<ToDoModels> check_tasks;
-    MainActivity main;
+    private boolean isActivityActive = false;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Set the Activity as active when it starts
+        isActivityActive = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Set the Activity as inactive when it stops
+        isActivityActive = false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,12 +141,13 @@ public class AddTask extends AppCompatActivity {
                                                 MainActivity.main.refreshTodos();
                                                 MainActivity.main.loadSpinnerCategory();
                                                 finish();
+
                                             }
                                         }).
                                         setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                return;
+
                                             }
                                         });
                                         AlertDialog dialog = builder.create();
