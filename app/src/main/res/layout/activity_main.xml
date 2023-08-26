@@ -111,8 +111,6 @@
         android:layout_margin="32dp"
         android:backgroundTint="@color/whitePurple"
         android:src="@drawable/minus_xl"
-        app:tint="@color/white"
-        >
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        app:tint="@color/white"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </LinearLayout>
