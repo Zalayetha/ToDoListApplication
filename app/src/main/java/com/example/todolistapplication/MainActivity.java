@@ -40,15 +40,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
-        SearchView searchView = (SearchView) findViewById(R.id.SearchView);
-        EditText searchEditTextView = (EditText) searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-        searchEditTextView.setTextColor(getResources().getColor(R.color.white));
-        searchEditTextView.setHintTextColor(getResources().getColor(R.color.white));
-
-        // database
-        addButton = (FloatingActionButton) findViewById(R.id.fab);
-
-        main= this;
+//        Objects.requireNonNull(getSupportActionBar()).hide();
+//        SearchView searchView = (SearchView) findViewById(R.id.SearchView);
+//        EditText searchEditTextView = (EditText) searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+//        searchEditTextView.setTextColor(getResources().getColor(R.color.white));
+//        searchEditTextView.setHintTextColor(getResources().getColor(R.color.white));
+//
+//        // database
+//        addButton = (FloatingActionButton) findViewById(R.id.fab);
+//
+//        main= this;
 //        taskRecycleView = (RecyclerView) findViewById(R.id.taskRecycleViewer);
 //        taskRecycleView.setLayoutManager(new LinearLayoutManager(this));
 //        taskAdapter = new ToDoAdapter(MainActivity.this,dbCenter);
