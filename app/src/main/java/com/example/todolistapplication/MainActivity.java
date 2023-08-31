@@ -1,9 +1,12 @@
 package com.example.todolistapplication;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,12 +15,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolistapplication.Adapaters.ToDoAdapter;
 import com.example.todolistapplication.database.Todo;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,21 +43,24 @@ public class MainActivity extends AppCompatActivity {
     Spinner categoryTaskSpinner;
     List<String> categoryList;
     ItemTouchHelper itemTouchHelper;
-
+     private NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Objects.requireNonNull(getSupportActionBar()).hide();
-        SearchView searchView = (SearchView) findViewById(R.id.SearchView);
-        EditText searchEditTextView = (EditText) searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-        searchEditTextView.setTextColor(getResources().getColor(R.color.white));
-        searchEditTextView.setHintTextColor(getResources().getColor(R.color.white));
+        navController =  Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(MainActivity.this,navController);
 
-        // database
-        addButton = (FloatingActionButton) findViewById(R.id.fab);
-
-        main= this;
+//        Objects.requireNonNull(getSupportActionBar()).hide();
+//        SearchView searchView = (SearchView) findViewById(R.id.SearchView);
+//        EditText searchEditTextVieEditText) searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+////        searchEditTextView.setTextColorw = ((getResources().getColor(R.color.white));
+//        searchEditTextView.setHintTextColor(getResources().getColor(R.color.white));
+//
+//        // database
+//        addButton = (FloatingActionButton) findViewById(R.id.fab);
+//
+//        main= this;
 //        taskRecycleView = (RecyclerView) findViewById(R.id.taskRecycleViewer);
 //        taskRecycleView.setLayoutManager(new LinearLayoutManager(this));
 //        taskAdapter = new ToDoAdapter(MainActivity.this,dbCenter);
@@ -113,7 +125,11 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return navController.navigateUp()||super.onSupportNavigateUp();
+    }
 //    private void filterList(String newText) {
 //        List<Todo> filteredList = new ArrayList<>();
 //        for(Todo item:tasks){
@@ -152,5 +168,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        taskAdapter.setTask(tasks);
 //    }
+
 
 }

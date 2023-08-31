@@ -1,116 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:padding="30dp"
-    android:background="@color/darkPurple">
-
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="ExtraText"
-        android:orientation="horizontal">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile"
-            app:civ_border_width="0dp"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/miya_round"
-            app:civ_border_color="#FFFFFF"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
-        <TextView
+        android:background="@color/darkPurple">
+        <fragment
+            android:id="@+id/nav_host_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Miya Atsumu"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:textStyle="bold">
-        </TextView>
+            android:layout_height="match_parent"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation">
+        </fragment>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/SearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/searchviewrounded"
-            app:queryHint="Search Here..."
-            app:iconifiedByDefault="false"
-            app:searchIcon="@drawable/search"
-            >
-        </androidx.appcompat.widget.SearchView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_weight="0"
-            android:layout_gravity="center"
-            android:src="@drawable/home_house">
-        </ImageView>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_gravity="center"
-            android:text="Tasks"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_marginStart="10dp">
-        </TextView>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/custom_spn_background">
-
-            <Spinner
-                android:id="@+id/categoryspinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:dropDownSelector="@color/white"
-                android:dropDownWidth="150dp"
-                android:spinnerMode="dropdown"
-                android:tooltipText="Select Category"
-                />
-        </FrameLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="4"
-        android:layout_marginTop="25dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/taskRecycleViewer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="32dp"
-        android:backgroundTint="@color/whitePurple"
-        android:src="@drawable/minus_xl"
-        app:tint="@color/white"></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-</LinearLayout>
+</merge>
