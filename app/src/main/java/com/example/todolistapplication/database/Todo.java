@@ -19,6 +19,16 @@ public class Todo {
     public String category;
     @ColumnInfo(name = "status")
     public int status;
+
+    public Todo( String task, String note, String deadline, String category, int status) {
+        this.task = task;
+        this.note = note;
+        this.deadline = deadline;
+        this.category = category;
+        this.status = status;
+    }
+
+
 }
 
 

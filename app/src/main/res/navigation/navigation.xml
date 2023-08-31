@@ -3,19 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/taskFragment2">
+    app:startDestination="@id/taskFragment">
     <fragment
-        android:id="@+id/taskFragment2"
+        android:id="@+id/taskFragment"
         android:name="com.example.todolistapplication.ui.list.TaskFragment"
-        android:label="fragment_task"
-        tools:layout="@layout/fragment_task" >
+        android:label="Task"
+        tools:layout="@layout/fragment_task">
         <action
             android:id="@+id/action_taskFragment2_to_addTaskFragment3"
-            app:destination="@id/addTaskFragment3" />
+            app:destination="@id/addTaskFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
-        android:id="@+id/addTaskFragment3"
+        android:id="@+id/addTaskFragment"
         android:name="com.example.todolistapplication.ui.add.AddTaskFragment"
-        android:label="fragment_add_task"
+        android:label="Add Task"
         tools:layout="@layout/fragment_add_task" />
 </navigation>

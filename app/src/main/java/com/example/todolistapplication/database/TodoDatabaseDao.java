@@ -8,12 +8,15 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+
 @Dao
 public interface TodoDatabaseDao {
     @Query("SELECT * FROM todos")
-    List<Todo> getAll();
+    Flowable<List<Todo>> getAll();
     @Insert
-    void insertTask(Todo todo);
+    Completable insertTask(Todo todo);
     @Update
     void updateTask(Todo todo);
     @Delete

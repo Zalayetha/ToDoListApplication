@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="@={taskFragmentViewModel.currentText}"
+                android:text="@{taskFragmentViewModel.currentText}"
                 android:textColor="@color/white"
                 android:textStyle="bold"></TextView>
         </LinearLayout>
@@ -132,10 +132,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             android:backgroundTint="@color/whitePurple"
+            android:contentDescription="Floating Button to Add Task"
             android:src="@drawable/minus_xl"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="Floating Button to Add Task">
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{()->taskFragmentViewModel.onNavigated()}">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
