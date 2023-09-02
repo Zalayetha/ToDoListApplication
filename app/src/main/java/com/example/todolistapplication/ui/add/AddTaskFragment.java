@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 
 import com.example.todolistapplication.R;
 import com.example.todolistapplication.databinding.FragmentAddTaskBinding;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.timepicker.MaterialTimePicker;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Scheduler;
@@ -49,8 +51,34 @@ public class AddTaskFragment extends Fragment {
                 addTaskViewModel.onDoneAddButtonClicked();
             }
         });
-
-//        TODO 1: Implement DatePicker and TimePicker
+        showDatePicker();
+        showTimePicker();
         return fragmentAddTaskBinding.getRoot();
+    }
+
+    private void showDatePicker(){
+        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select The Date");
+        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+
+        fragmentAddTaskBinding.editTextDate.setOnClickListener(view -> {
+            materialDatePicker.show(getParentFragmentManager(),"MATERIAL_DATE_PICKER");
+        });
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            fragmentAddTaskBinding.editTextDate.setText(materialDatePicker.getHeaderText());
+        });
+    }
+    private void showTimePicker(){
+        MaterialTimePicker.Builder materialTimeBuilder = new MaterialTimePicker.Builder()
+                .setTitleText("Select Time")
+                .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK);
+        MaterialTimePicker materialTimePicker = materialTimeBuilder.build();
+        fragmentAddTaskBinding.editTextTime.setOnClickListener(view -> {
+            materialTimePicker.show(getParentFragmentManager(),"MATERIAL_TIME_PICKER");
+        });
+        materialTimePicker.addOnPositiveButtonClickListener(view -> {
+            fragmentAddTaskBinding.editTextTime.setText(materialTimePicker.getHour()+":"+materialTimePicker.getMinute());
+        });
     }
 }
