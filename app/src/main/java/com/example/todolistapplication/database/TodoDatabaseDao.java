@@ -10,13 +10,16 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface TodoDatabaseDao {
     @Query("SELECT * FROM todos")
     Flowable<List<Todo>> getAll();
+
+
     @Insert
-    Completable insertTask(Todo todo);
+    Single<Long> insertTask(Todo todo);
     @Update
     void updateTask(Todo todo);
     @Delete

@@ -16,6 +16,7 @@ import com.example.todolistapplication.database.TodoDatabase;
 import com.example.todolistapplication.util.Utils;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public class AddTaskViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> addButtonClick;
@@ -91,11 +92,13 @@ public class AddTaskViewModel extends AndroidViewModel {
     }
 
 
-    Completable addTaskToDatabase(){
+    Single<Long> addTaskToDatabase(){
         Todo todo = Utils.formToTodoModel(getTask().getValue(),getNote().getValue(),
                 getCategory().getValue(),getDate().getValue(),getTime().getValue(),0);
         return todoDatabase.todoDao().insertTask(todo);
     }
+
+
 
 
 }
