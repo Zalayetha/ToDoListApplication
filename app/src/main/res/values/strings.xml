@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ToDoListApplication</string>
     <string name="add_tasks">Add Tasks</string>
+    <string name="format_date">%s:%s</string>
 </resources>
